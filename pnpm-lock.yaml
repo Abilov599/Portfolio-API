@@ -14,6 +14,9 @@ dependencies:
   '@nestjs/platform-express':
     specifier: ^10.0.0
     version: 10.3.5(@nestjs/common@10.3.5)(@nestjs/core@10.3.5)
+  '@vendia/serverless-express':
+    specifier: ^4.12.6
+    version: 4.12.6
   reflect-metadata:
     specifier: ^0.2.0
     version: 0.2.1
@@ -143,6 +146,11 @@ packages:
       js-tokens: 4.0.0
       picocolors: 1.0.0
     dev: true
+
+  /@codegenie/serverless-express@4.14.0:
+    resolution: {integrity: sha512-74hOQzHz+rEhDtTKIdAZ/Gks/PGc9JHxKULBrVl5WBComGv6ceJHewdEKNfDtwPo7d1LKidNFJ2QXGO5pZr2tQ==}
+    engines: {node: '>=12'}
+    dev: false
 
   /@colors/colors@1.5.0:
     resolution: {integrity: sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==}
@@ -717,6 +725,13 @@ packages:
   /@ungap/structured-clone@1.2.0:
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
     dev: true
+
+  /@vendia/serverless-express@4.12.6:
+    resolution: {integrity: sha512-ePsIPk3VQwgm5nh/JGBtTKQs5ZOF7REjHxC+PKk/CHvhlKQkJuUU365uPOlxuLJhC+BAefDznDRReWxpnKjmYg==}
+    engines: {node: '>=12'}
+    dependencies:
+      '@codegenie/serverless-express': 4.14.0
+    dev: false
 
   /@webassemblyjs/ast@1.12.1:
     resolution: {integrity: sha512-EKfMUOPRRUTy5UII4qJDGPpqfwjOmZ5jeGFwid9mnoqIFK+e0vqoi1qH56JpmZSzEL53jKnNzScdmftJyG5xWg==}
