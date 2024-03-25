@@ -41,6 +41,9 @@ $ yarn start
 # watch mode
 $ yarn dev
 
+# building
+$ yarn build
+
 # production mode
 $ yarn prod
 ```
