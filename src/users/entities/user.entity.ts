@@ -23,6 +23,9 @@ export class User {
   @Column({ nullable: false })
   password: string;
 
+  @Column({ default: false })
+  isAdmin: string;
+
   @Column()
   @CreateDateColumn()
   created_at: Date;
