@@ -1,17 +1,14 @@
 import {
   Entity,
   Column,
-  PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  PrimaryColumn,
 } from 'typeorm';
 
 @Entity('users')
 export class User {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column({ nullable: false })
+  @PrimaryColumn()
   firstName: string;
 
   @Column({ nullable: false })
@@ -28,11 +25,11 @@ export class User {
 
   @Column()
   @CreateDateColumn()
-  created_at: Date;
+  createdAt: Date;
 
   @Column()
   @UpdateDateColumn()
-  updated_at: Date;
+  updatedAt: Date;
 
   constructor(user: Partial<User>) {
     Object.assign(this, user);
