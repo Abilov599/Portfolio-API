@@ -9,12 +9,6 @@ import {
 @Entity('users')
 export class User {
   @PrimaryColumn()
-  firstName: string;
-
-  @Column({ nullable: false })
-  lastName: string;
-
-  @Column({ nullable: false })
   email: string;
 
   @Column({ nullable: false })
