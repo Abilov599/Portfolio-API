@@ -1,4 +1,5 @@
-import { RegisterUserDto, LoginUserDto, User } from '@/core';
+import { LoginUserDto, RegisterUserDto, User } from '@/core';
+import { comparePassword, hashPassword } from '@/lib';
 import {
   ConflictException,
   Injectable,
@@ -7,7 +8,6 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
-import { compare, hash } from 'bcrypt';
 import { Response } from 'express';
 import { Repository } from 'typeorm';
 
@@ -27,7 +27,7 @@ export class AuthService {
       throw new ConflictException('User with this email already exists');
     }
 
-    const hashedPassword = await hash(registerUserDto.password, 10);
+    const hashedPassword = await hashPassword(registerUserDto.password);
 
     const newUser = await this.usersRepository.save({
       ...registerUserDto,
@@ -48,7 +48,10 @@ export class AuthService {
 
     if (!existingUser) throw new NotFoundException();
 
-    const isPasswordValid = await compare(password, existingUser.password);
+    const isPasswordValid = await comparePassword(
+      password,
+      existingUser.password,
+    );
 
     if (!isPasswordValid) throw new UnauthorizedException();
 
