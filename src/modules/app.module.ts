@@ -6,7 +6,5 @@ import { ViewsModule } from './views/views.module';
 
 @Module({
   imports: [DatabaseModule, UsersModule, AuthModule, ViewsModule],
-  providers: [],
-  controllers: [],
 })
 export class AppModule {}
