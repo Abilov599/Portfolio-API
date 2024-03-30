@@ -1,7 +1,12 @@
-import { IsBoolean } from 'class-validator';
-import { RegisterUserDto } from './register-user.dto';
+import { IsBoolean, IsEmail, IsNotEmpty } from 'class-validator';
 
-export class LoginUserDto extends RegisterUserDto {
+export class LoginUserDto {
+  @IsEmail()
+  email: string;
+
+  @IsNotEmpty()
+  password: string;
+
   @IsBoolean()
   rememberMe: boolean;
 }
