@@ -6,6 +6,14 @@ import {
 } from 'class-validator';
 
 export class RegisterUserDto {
+  @IsNotEmpty()
+  @MaxLength(50)
+  firstName: string;
+
+  @IsNotEmpty()
+  @MaxLength(50)
+  lastName: string;
+
   @IsEmail()
   email: string;
 
