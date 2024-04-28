@@ -7,16 +7,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: process.env.DB_HOST,
-      port: parseInt(process.env.DB_PORT),
-      username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
-      ssl: {
-        ca: process.env.DB_SSL_CERT,
-      },
+      url: process.env.PG_URL,
       autoLoadEntities: true,
-      synchronize: Boolean(process.env.DB_SYNCHRONIZE),
+      // synchronize: Boolean(process.env.DB_SYNCHRONIZE),
     }),
   ],
 })
