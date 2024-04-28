@@ -80,7 +80,7 @@ jobs:
             docker-compose down
             docker rmi ${{ secrets.SERVER_DOCKER_IMAGE }}
             docker-compose up -d
-            rm .env
+            cd .. && rm -rf server
 
       - name: Docker Logout
         if: always()
