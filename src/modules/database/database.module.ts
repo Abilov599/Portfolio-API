@@ -9,7 +9,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       type: 'postgres',
       url: process.env.PG_URL,
       autoLoadEntities: true,
-      // synchronize: Boolean(process.env.DB_SYNCHRONIZE),
+      synchronize: Boolean(process.env.DB_SYNCHRONIZE),
     }),
   ],
 })
