@@ -13,6 +13,7 @@ import { CurrentUser } from './decorators';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
 import { RegisterUserDto, User } from '@/core';
+import { LocalAuthGuard } from './guards';
 
 @Controller('auth')
 export class AuthController {
@@ -24,7 +25,7 @@ export class AuthController {
     await this.authService.register(registerUserDto);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(LocalAuthGuard)
   @Post('login')
   async login(@CurrentUser() user: User) {
     return this.authService.login(user);

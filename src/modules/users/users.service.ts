@@ -1,7 +1,8 @@
-import { RegisterUserDto, User } from '@/core';
 import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindManyOptions, FindOneOptions, Repository } from 'typeorm';
+
+import { RegisterUserDto, User } from '@/core';
 
 @Injectable()
 export class UsersService {
