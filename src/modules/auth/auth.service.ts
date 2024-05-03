@@ -1,15 +1,14 @@
-import { LoginUserDto, RegisterUserDto, User } from '@/core';
-import { comparePassword, hashPassword } from '@/lib';
 import {
+  BadRequestException,
   ConflictException,
   Injectable,
-  NotFoundException,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Response } from 'express';
 import { Repository } from 'typeorm';
+
+import { RegisterUserDto, User } from '@/core';
+import { comparePassword, hashPassword } from '@/lib';
 
 @Injectable()
 export class AuthService {
@@ -19,7 +18,22 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async register(registerUserDto: RegisterUserDto, res: Response) {
+  async validateUser(email: string, password: string): Promise<User> {
+    const user = await this.usersRepository.findOne({ where: { email } });
+
+    if (!user) throw new BadRequestException('User not found');
+
+    const isPasswordValid = await comparePassword(password, user.password);
+
+    if (!isPasswordValid)
+      throw new BadRequestException('Password does not match');
+
+    delete user.password;
+
+    return user;
+  }
+
+  async register(registerUserDto: RegisterUserDto) {
     const existingUser = await this.usersRepository.exists({
       where: { email: registerUserDto.email },
     });
@@ -34,46 +48,14 @@ export class AuthService {
       password: hashedPassword,
     });
 
-    delete newUser.password;
-
-    res.status(201).send(newUser);
+    return this.login(newUser);
   }
 
-  async login(loginUserDto: LoginUserDto, res: Response) {
-    const { email, password, rememberMe } = loginUserDto;
+  async login(user: User) {
+    const { id, email, role } = user;
 
-    const existingUser = await this.usersRepository.findOne({
-      where: { email: loginUserDto.email },
-    });
-
-    if (!existingUser) throw new NotFoundException();
-
-    const isPasswordValid = await comparePassword(
-      password,
-      existingUser.password,
-    );
-
-    if (!isPasswordValid) throw new UnauthorizedException();
-
-    const token = this.jwtService.sign({ email });
-
-    res.cookie('access_token', token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: 'strict',
-      maxAge: rememberMe ? 7 * 24 * 60 * 60 * 1000 : null,
-      path: '/',
-    });
-
-    delete existingUser.password;
-
-    res.status(200).send(existingUser);
-  }
-
-  async logout(res: Response) {
-    res
-      .clearCookie('access_token')
-      .status(200)
-      .send({ message: 'You are successfully logged out', statusCode: 200 });
+    return {
+      access_token: await this.jwtService.signAsync({ id, email, role }),
+    };
   }
 }

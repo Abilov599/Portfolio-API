@@ -1,3 +1,4 @@
+import { Role } from '@/enums';
 import {
   Column,
   CreateDateColumn,
@@ -9,6 +10,9 @@ import {
 @Entity('users')
 export class User {
   @PrimaryColumn()
+  id: string;
+
+  @Column({ nullable: false })
   email: string;
 
   @Column({ nullable: false })
@@ -20,8 +24,8 @@ export class User {
   @Column({ nullable: false })
   lastName: string;
 
-  @Column({ default: false })
-  isAdmin: boolean;
+  @Column({ default: Role.User })
+  role: Role;
 
   @Column()
   @CreateDateColumn()
