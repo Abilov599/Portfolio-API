@@ -1,7 +1,11 @@
-import { RegisterUserDto, LoginUserDto } from '@/core';
-import { Body, Controller, Post, Res } from '@nestjs/common';
-import { Response } from 'express';
+import { Body, Controller, Get, Post, Res, UseGuards } from '@nestjs/common';
+
+import { RegisterUserDto, User } from '@/core';
+
 import { AuthService } from './auth.service';
+import { CurrentUser } from './decorators';
+import { JwtAuthGuard, LocalAuthGuard } from './guards';
+import { Response } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -15,13 +19,15 @@ export class AuthController {
     await this.authService.register(registerUserDto, res);
   }
 
+  @UseGuards(LocalAuthGuard)
   @Post('login')
-  async login(@Body() loginDto: LoginUserDto, @Res() res: Response) {
-    await this.authService.login(loginDto, res);
+  async login(@CurrentUser() user: User) {
+    return this.authService.login(user);
   }
 
-  @Post('logout')
-  async logout(@Res() res: Response) {
-    await this.authService.logout(res);
+  @UseGuards(JwtAuthGuard)
+  @Get('profile')
+  async getProfile(@CurrentUser() user: User) {
+    return this.authService.getProfile(user);
   }
 }
