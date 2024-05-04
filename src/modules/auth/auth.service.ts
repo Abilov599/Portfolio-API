@@ -5,16 +5,20 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
+
 import { Repository } from 'typeorm';
 
 import { RegisterUserDto, User } from '@/core';
 import { comparePassword, hashPassword } from '@/lib';
+
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
+    private usersService: UsersService,
     private readonly jwtService: JwtService,
   ) {}
 
@@ -48,7 +52,9 @@ export class AuthService {
       password: hashedPassword,
     });
 
-    return this.login(newUser);
+    delete newUser.password;
+
+    return newUser;
   }
 
   async login(user: User) {
@@ -57,5 +63,9 @@ export class AuthService {
     return {
       access_token: await this.jwtService.signAsync({ id, email, role }),
     };
+  }
+
+  async getProfile(user: User) {
+    return this.usersService.getProfile(user);
   }
 }
