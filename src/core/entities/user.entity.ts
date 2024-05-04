@@ -1,4 +1,3 @@
-import { Role } from '@/enums';
 import {
   Column,
   CreateDateColumn,
@@ -6,6 +5,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+
+import { Role } from '@/enums';
 
 @Entity('users')
 export class User {
