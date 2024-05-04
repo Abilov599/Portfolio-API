@@ -12,6 +12,7 @@ import { RegisterUserDto, User } from '@/core';
 import { comparePassword, hashPassword } from '@/lib';
 
 import { UsersService } from '../users/users.service';
+import { Response } from 'express';
 
 @Injectable()
 export class AuthService {
@@ -37,7 +38,7 @@ export class AuthService {
     return user;
   }
 
-  async register(registerUserDto: RegisterUserDto) {
+  async register(registerUserDto: RegisterUserDto, res: Response) {
     const existingUser = await this.usersRepository.exists({
       where: { email: registerUserDto.email },
     });
@@ -54,7 +55,7 @@ export class AuthService {
 
     delete newUser.password;
 
-    return newUser;
+    return res.send(newUser);
   }
 
   async login(user: User) {
