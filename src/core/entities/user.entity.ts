@@ -2,13 +2,18 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
+import { Role } from '@/enums';
+
 @Entity('users')
 export class User {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
+  @Column({ nullable: false })
   email: string;
 
   @Column({ nullable: false })
@@ -20,8 +25,8 @@ export class User {
   @Column({ nullable: false })
   lastName: string;
 
-  @Column({ default: false })
-  isAdmin: boolean;
+  @Column({ default: Role.User })
+  role: Role;
 
   @Column()
   @CreateDateColumn()
